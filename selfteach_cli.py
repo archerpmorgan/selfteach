@@ -70,6 +70,10 @@ def studied_sections_bulk(bookname, path):
                 continue
             sqliteapi.mark_section_as_studied(bookname, section)
             print(f"Okay, that database now reflects that {section} has been studied.")
+    
+# generate a new problem set.
+def new_problem_set(books, number_of_problems):
+    pass
         
 
 def main():
@@ -105,7 +109,22 @@ def main():
         else: 
             studied_sections_interactive(bookname)
         print("done")
-            
+    if sys.argv[1] == "generate":
+        if len(os.listdir("problem_sets")) is not 0:
+            print("Unifinished problem set currently lingers. Consider finishing it or deleting it")
+            return 
+        print("Okay, will generate a new set. Enter the books you want to pull from in a comma-separated list below.")
+        print("Here are your books: ")
+        books = sqliteapi.list_books()
+        print(books)
+        books = input(" ").split(",")
+        books = list(map(lambda a: a.strip(), books))
+        for book in books:
+            if not sqliteapi.has_book(book):
+                print(f"The book {book} is not in the database")
+                return
+        number_of_problems = int(input("How many new problems? "))
+        print(f"Okay. Generating a new problem set from these books:{books} with {number_of_problems} problems in it. You can find it in the problem_sets directory.")
 
 if __name__ == "__main__":
     main()
