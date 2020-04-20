@@ -1,0 +1,67 @@
+ingestion template
+name: An Introduction to Mathematical Statistics and Its Applications
+subject: Mathematics
+author: Larsen,Marx
+edition: 6
+sections (name->description->number of problems):
+2.2->Probability->40
+2.3->Probability->18
+2.4->Probability->54
+2.5->Probability->32
+2.6->Probability->63
+2.7->Probability->23
+3.2->Random Variables->36
+3.3->Random Variables->16
+3.4->Random Variables->18
+3.5->Random Variables->36
+3.6->Random Variables->25
+3.7->Random Variables->52
+3.8->Random Variables->13
+3.9->Random Variables->24
+3.10->Random Variables->16
+3.11->Random Variables->21
+3.12->Random Variables->24
+4.2->Special Distributions->29
+4.3->Special Distributions->39
+4.4->Special Distributions->10
+4.5->Special Distributions->10
+4.6->Special Distributions->10
+5.2->Estimation->27
+5.3->Estimation->28
+5.4->Estimation->22
+5.5->Estimation->7
+5.6->Estimation->11
+5.7->Estimation->6
+5.8->Estimation->9
+6.2->Hypothesis Testing->11
+6.3->Hypothesis Testing->9
+6.4->Hypothesis Testing->24
+6.5->Hypothesis Testing->6
+7.3->Inferences Based on the Normal Distribution->15
+7.4->Inferences Based on the Normal Distribution->27
+7.5->Inferences Based on the Normal Distribution->17
+8.2->Types of Data->32
+9.2->Two-Sample Inferences->20
+9.3->Two-Sample Inferences->10
+9.4->Two-Sample Inferences->10
+9.5->Two-Sample Inferences->12
+10.2->Goodness-of-Fit Tests->10
+10.3->Goodness-of-Fit Tests->12
+10.4->Goodness-of-Fit Tests->14
+10.5->Goodness-of-Fit Tests->10
+11.2->Regression->31
+11.3->Regression->24
+11.4->Regression->15
+11.5->Regression->11
+12.2->Analysis of Variance->13
+12.3->Analysis of Variance->7
+12.4->Analysis of Variance->7
+12.5->Analysis of Variance->3
+12.A.2->Analysis of Variance->5
+13.2->Randomized Block Designs->13
+13.3->Randomized Block Designs->9
+14.2->Nonparametric Statistics->11
+14.3->Nonparametric Statistics->10
+14.4->Nonparametric Statistics->8
+14.5->Nonparametric Statistics->6
+14.6->Nonparametric Statistics->6

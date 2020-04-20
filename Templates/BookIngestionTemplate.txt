@@ -1,0 +1,11 @@
+ingestion template
+name:
+subject:
+author:
+edition:
+chapters (name->description->number of problems):
+
+
+
+
+

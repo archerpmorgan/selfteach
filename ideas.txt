@@ -1,0 +1,16 @@
+Ideas for this project:
+
+- add date studied to book sections table
+- enable description of prioritization of different books (for example, as number between 1,100)
+- selection of problems should guarantee the first n and then pick randomly?
+- everything that calls the sqlite api has no notion of primary key ids. just human readable information
+- probably going with a python web framework like flask or django
+    https://docs.python-guide.org/scenarios/web/
+- should be able to ingest from gui to json to database
+- add command line -h option for detailed list of all commands
+- add option to get total number of problems remaing in book
+- make executable command line package 
+- option to get more problems from arbitrary combination of books specifiable at command line
+- explicitly specify problems completed outside of a more
+- inchoate check if malformed before extending
+- make github project
