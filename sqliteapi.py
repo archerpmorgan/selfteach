@@ -1,6 +1,7 @@
 import sqlite3
 import sys
 import os
+import random
 from datetime import datetime
 from datetime import date
 
@@ -202,4 +203,64 @@ def mark_section_as_studied(bookname, section_name):
         if (sqliteConnection):
             sqliteConnection.close()
 
+
+# given a set of assignment criteria, return the number of problems remaining which meet it
+def number_of_problems_meeting_assignment_criteria(books, number_of_problems):
+    num = 0
+    books = ",".join(list(map(lambda a: "'" + a + "'", books)))
+    try:
+        # make database connection
+        sqliteConnection = sqlite3.connect('db.sqlite3')
+        cursor = sqliteConnection.cursor()
+
+        eligible_problems = cursor.execute(f"SELECT * FROM problem \
+                                            INNER JOIN section on problem.section_id=section.section_id \
+                                            INNER JOIN book on book.book_id = section.book_id  \
+                                            WHERE problem.completed = 0 AND section.studied = 1 AND book.name in ({books});").fetchall()
+        num = len(eligible_problems)
+    except sqlite3.Error as error:
+        print("Failed counting elligible problems", error)
+    finally:
+        if (sqliteConnection):
+            sqliteConnection.close()
+    return num
+
+
+# assumes that we have enough problems because we checked already
+def get_new_problem_set(books, number_of_problems):
+    problems = []
+    books = ",".join(list(map(lambda a: "'" + a + "'", books)))
+    try:
+        # make database connection
+        sqliteConnection = sqlite3.connect('db.sqlite3')
+        cursor = sqliteConnection.cursor()
+
+        # while still havent grabbed enough problems:
+        #     grab random section from random book
+        #     grab look problems sorted by number and try to add sequentially
+        while len(problems) < number_of_problems:
+            eligible_sections = cursor.execute(f"SELECT section.section_id FROM problem \
+                                                INNER JOIN section on problem.section_id=section.section_id \
+                                                INNER JOIN book on book.book_id = section.book_id  \
+                                                WHERE problem.completed = 0 AND section.studied = 1 AND book.name in ({books});").fetchall()
+            chosen_section_id = random.choice(eligible_sections)[0]
+            problems_in_chosen_section = cursor.execute(f"SELECT problem_id, problem.name, section.name, section.description, book.name FROM problem \
+                                                            INNER JOIN section on problem.section_id=section.section_id \
+                                                            INNER JOIN book on book.book_id = section.book_id  \
+                                                            WHERE problem.completed = 0 AND section.studied = 1 AND book.name in ({books}) \
+                                                            AND section.section_id = {chosen_section_id} \
+                                                            ORDER BY CAST(problem.name as int) ASC;").fetchall()
+            for i in range(len(problems_in_chosen_section)):
+                if problems_in_chosen_section[i] in problems:
+                    continue
+                else:
+                    problems.append(problems_in_chosen_section[i])
+                break
+            
+    except sqlite3.Error as error:
+        print("Failed generating new problem set", error)
+    finally:
+        if (sqliteConnection):
+            sqliteConnection.close()
+    return problems
 

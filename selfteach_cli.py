@@ -1,6 +1,7 @@
 import sqliteapi
 import sys
 import os
+import json
 
 def bookingestion_parseline(line):
     contents = line.split("->")
@@ -28,9 +29,9 @@ def ingest(path):
             print(lines[i])
             (section_name, description, number_of_problems) = bookingestion_parseline(lines[i])
             sqliteapi.add_section_to_database(book_name, section_name, 0, description)
-            for j in range(number_of_problems):
+            for j in range(1, number_of_problems + 1):
                 sqliteapi.add_new_problem_to_database(book_name, section_name, str(j))
-        print(f"ingestion of {path} complete" )
+        print(f"ingestion of {path} complete")
     
 
 def one_problem_new():
@@ -72,19 +73,34 @@ def studied_sections_bulk(bookname, path):
             print(f"Okay, that database now reflects that {section} has been studied.")
     
 # generate a new problem set.
+# select uncompleted problems from studied sections in the books listed
+# number of problems from each book is random
+# select incrementally in the section (e.g. 5.6.1, 5.6.2. ...)
+# write as json dump and human-readable to file.
 def new_problem_set(books, number_of_problems):
-    pass
-        
+    problems = sqliteapi.get_new_problem_set(books, number_of_problems)
+    print(problems)
+    print("-----")
+    with open("assignment.json", 'w+') as outjson:
+        outjson.write(json.dumps(problems))
+    with open("assignment.json", 'r') as injson:
+        problems = json.loads(injson.read())
+    print(problems)
+
+# display books in menu format
+def display(books):
+    displaystr = "\n"
+    for i in range(len(books)):
+        displaystr = displaystr + str(i) + ": " + books[i] + "\n"
+    print(displaystr)
+
 
 def main():
 
     #
     #
-    #
     sqliteapi.dump_to_backups()
     # quickly make database backup before doing anything else
-    #
-    #
     #
 
     if len(sys.argv) < 2:
@@ -110,21 +126,29 @@ def main():
             studied_sections_interactive(bookname)
         print("done")
     if sys.argv[1] == "generate":
-        if len(os.listdir("problem_sets")) is not 0:
+        if len(os.listdir("problem_sets")) != 0:
             print("Unifinished problem set currently lingers. Consider finishing it or deleting it")
             return 
-        print("Okay, will generate a new set. Enter the books you want to pull from in a comma-separated list below.")
+        print("Okay, will generate a new set. Enter the books you want to pull from in a comma-separated list below by index.")
         print("Here are your books: ")
         books = sqliteapi.list_books()
-        print(books)
-        books = input(" ").split(",")
+        display(books)
+        indices = input(" ").split(",")
         books = list(map(lambda a: a.strip(), books))
-        for book in books:
-            if not sqliteapi.has_book(book):
+        for index in indices:
+            book = books[int(index)]
+            if not (sqliteapi.has_book(book)):
                 print(f"The book {book} is not in the database")
                 return
+        books = [books[int(i)] for i in indices]
         number_of_problems = int(input("How many new problems? "))
-        print(f"Okay. Generating a new problem set from these books:{books} with {number_of_problems} problems in it. You can find it in the problem_sets directory.")
+        number_of_problems_meeting_criteria = sqliteapi.number_of_problems_meeting_assignment_criteria(books, number_of_problems)
+        if number_of_problems > number_of_problems_meeting_criteria:
+            print(f"You asked for {number_of_problems} problems, but only {number_of_problems_meeting_criteria} meet your criteria.")
+            return
+        print(f"Okay. Generating a new problem set from these books:{books} with {number_of_problems} problems in it.\n\
+                A total of {number_of_problems_meeting_criteria} met your desired criteria. You can find it in the problem_sets directory.")
+        new_problem_set(books, number_of_problems)
 
 if __name__ == "__main__":
     main()

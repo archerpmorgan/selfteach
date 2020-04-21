@@ -1,5 +1,6 @@
 Ideas for this project:
 
+- do cli the right pythonic way with documentation
 - add date studied to book sections table
 - enable description of prioritization of different books (for example, as number between 1,100)
 - selection of problems should guarantee the first n and then pick randomly?
@@ -13,4 +14,5 @@ Ideas for this project:
 - option to get more problems from arbitrary combination of books specifiable at command line
 - explicitly specify problems completed outside of a more
 - inchoate check if malformed before extending
-- make github project
+- write project summary: What learned, what went well and not, how to use (perhaps that goes in the README), etc.
+
