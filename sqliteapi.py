@@ -59,7 +59,7 @@ def dump_to_backups():
         sqliteConnection = sqlite3.connect('db.sqlite3')
         cursor = sqliteConnection.cursor()
         data = '\n'.join(sqliteConnection.iterdump())
-        outfile = open(f"db_backups/backup_{datetime.now().timestamp()}.sql", "w+")
+        outfile = open(f"backups/db_backups/backup_{datetime.now().timestamp()}.sql", "w+")
         outfile.write(data)
         outfile.close()
     except sqlite3.Error as error:

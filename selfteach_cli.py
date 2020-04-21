@@ -2,6 +2,8 @@ import sqliteapi
 import sys
 import os
 import json
+from datetime import datetime
+from datetime import date
 
 def bookingestion_parseline(line):
     contents = line.split("->")
@@ -72,20 +74,47 @@ def studied_sections_bulk(bookname, path):
             sqliteapi.mark_section_as_studied(bookname, section)
             print(f"Okay, that database now reflects that {section} has been studied.")
     
-# generate a new problem set.
-# select uncompleted problems from studied sections in the books listed
-# number of problems from each book is random
-# select incrementally in the section (e.g. 5.6.1, 5.6.2. ...)
-# write as json dump and human-readable to file.
+# generate a new problem set of incomplete problems from studied sections of the books given.
 def new_problem_set(books, number_of_problems):
     problems = sqliteapi.get_new_problem_set(books, number_of_problems)
-    print(problems)
-    print("-----")
-    with open("assignment.json", 'w+') as outjson:
+    with open("problem_sets/assignment.json", 'w+') as outjson:
         outjson.write(json.dumps(problems))
-    with open("assignment.json", 'r') as injson:
+    #build markdown string
+    md = "# Current Assignment\n| Book Title | Section Title | Section Name | Problem Number |\n| -- | -- | -- | -- |\n"
+    for row in problems:
+        md = md + f"|{row[4]}|{row[3]}|{row[2]}|{row[1]}|\n"
+    with open("problem_sets/assignment.md", 'w+') as outmd:
+        outmd.write(md)
+
+# read in the current assignment and update the data to reflect all problems in it have been done
+def complete_problem_set():
+    with open("problem_sets/assignment.json", 'r') as injson:
         problems = json.loads(injson.read())
-    print(problems)
+
+def clear_problem_set():
+    files = os.listdir("problem_sets")
+    if len(files) == 0:
+        print("Nothing to clear.")
+    try:
+        for file in files:
+            os.remove("problem_sets/" + file)
+    except Exception as error:
+        print(" Failed to delete current problem set: ", error)
+    print("All done")
+
+def backup_assignment():
+    files = os.listdir("problem_sets")
+    if len(files) == 0:
+        return
+    try:
+        for file in files:
+            data = ""
+            with open("problem_sets/" + file) as f:
+                data = f.read()
+            with open(f"backups/assignment_backups/backup_assignment_{datetime.now().timestamp()}.txt", "w+") as backupfile:
+                backupfile.write(data)
+    except Exception as error:
+        print(" Failed to backup current problem set: ", error)
 
 # display books in menu format
 def display(books):
@@ -100,11 +129,14 @@ def main():
     #
     #
     sqliteapi.dump_to_backups()
+    backup_assignment()
     # quickly make database backup before doing anything else
     #
 
     if len(sys.argv) < 2:
         print("backed up db")
+    if sys.argv[1] == "clear":
+            clear_problem_set()
     if sys.argv[1] == "ingest":
             path = sys.argv[2]
             ingest(path)
@@ -149,6 +181,7 @@ def main():
         print(f"Okay. Generating a new problem set from these books:{books} with {number_of_problems} problems in it.\n\
                 A total of {number_of_problems_meeting_criteria} met your desired criteria. You can find it in the problem_sets directory.")
         new_problem_set(books, number_of_problems)
+    
 
 if __name__ == "__main__":
     main()
