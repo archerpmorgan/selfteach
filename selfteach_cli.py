@@ -1,6 +1,7 @@
 import sqliteapi
 import sys
 import os
+import shutil
 import json
 from datetime import datetime
 from datetime import date
@@ -33,6 +34,7 @@ def ingest(path):
             sqliteapi.add_section_to_database(book_name, section_name, 0, description)
             for j in range(1, number_of_problems + 1):
                 sqliteapi.add_new_problem_to_database(book_name, section_name, str(j))
+                print(f"adding now problem {book_name}  {section_name}  {str(j)}")
         print(f"ingestion of {path} complete")
     
 
@@ -88,9 +90,20 @@ def new_problem_set(books, number_of_problems):
 
 # read in the current assignment and update the data to reflect all problems in it have been done
 def complete_problem_set():
+    files = os.listdir("problem_sets")
+    if len(files) == 0:
+        print("Nothing to complete.")
+        return
     with open("problem_sets/assignment.json", 'r') as injson:
         problems = json.loads(injson.read())
+        p_ids = list(map(lambda a : a[0], problems))
+        sqliteapi.complete(p_ids)
+        # Move files to completed sets folder
+        for file in files:
+            shutil.copyfile(f"problem_sets/{file}", f"complete_problem_sets/completed_{date.today()}_{file}")
+        clear_problem_set()
 
+# clear out files from problem set folder
 def clear_problem_set():
     files = os.listdir("problem_sets")
     if len(files) == 0:
@@ -102,6 +115,7 @@ def clear_problem_set():
         print(" Failed to delete current problem set: ", error)
     print("All done")
 
+# write assignment to file for backup
 def backup_assignment():
     files = os.listdir("problem_sets")
     if len(files) == 0:
@@ -181,6 +195,12 @@ def main():
         print(f"Okay. Generating a new problem set from these books:{books} with {number_of_problems} problems in it.\n\
                 A total of {number_of_problems_meeting_criteria} met your desired criteria. You can find it in the problem_sets directory.")
         new_problem_set(books, number_of_problems)
+    if sys.argv[1] == "complete":
+        response = input("Are you sure you want to complete the current problem set? (y or n): ")
+        while response not in ["y", "n"]:
+            print("y or n")
+            response = input("Are you sure you want to complete the current problem set? (y or n): ")
+        complete_problem_set()
     
 
 if __name__ == "__main__":

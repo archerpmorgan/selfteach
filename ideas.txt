@@ -1,5 +1,9 @@
 Ideas for this project:
 
+
+- investigate and implement best practices as applicable for python code modules
+- web page with graphics on progress through different books
+- deploy with terraform
 - do cli the right pythonic way with documentation
 - add date studied to book sections table
 - enable description of prioritization of different books (for example, as number between 1,100)
@@ -9,10 +13,9 @@ Ideas for this project:
     https://docs.python-guide.org/scenarios/web/
 - should be able to ingest from gui to json to database
 - add command line -h option for detailed list of all commands
-- add option to get total number of problems remaing in book
 - make executable command line package 
-- option to get more problems from arbitrary combination of books specifiable at command line
 - explicitly specify problems completed outside of a more
 - inchoate check if malformed before extending
-- write project summary: What learned, what went well and not, how to use (perhaps that goes in the README), etc.
+- write project summary: What learned, what went well and not, how to use (perhaps that goes in the README), tech stack, etc.
+
 

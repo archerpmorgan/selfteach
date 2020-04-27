@@ -5,6 +5,8 @@ import random
 from datetime import datetime
 from datetime import date
 
+def mydate():
+    return "-".join([str(date.today().month),str(date.today().day),str(date.today().year)])
 
 # initialize local sqlite database according to hard-coded schema
 def initialize_db():
@@ -125,12 +127,13 @@ def add_new_problem_to_database(book, section, name):
         book_id = cursor.execute(f"SELECT book_id FROM book WHERE name='{book}';").fetchall()[0][0]
 
          # grab section_id by section name
-        section_id = cursor.execute(f"SELECT section_id FROM section WHERE name='{section}';").fetchall()[0][0]                               
+        section_id = cursor.execute(f"SELECT section_id FROM section WHERE name='{section}' AND section.book_id = {book_id};").fetchall()[0][0]                               
         # make INSERT 
         sqlite_insert_with_param = """INSERT INTO problem
                           (book_id, section_id, name, completed)
                           VALUES (?, ?, ?, ?);"""
         data_tuple = (book_id, section_id, name, 0) 
+        print(f"data tuple: {book_id} {section_id} {name}")
         cursor.execute(sqlite_insert_with_param, data_tuple)
         sqliteConnection.commit()
     except sqlite3.Error as error:
@@ -194,7 +197,7 @@ def mark_section_as_studied(bookname, section_name):
                                     WHERE name='{section_name}' \
                                     AND book_id=(SELECT book_id FROM book WHERE name='{bookname}');").fetchall()[0][0]
         # update 'studied' field to 1
-        today = date.today()
+        today = mydate()
         cursor.execute(f"UPDATE section SET studied=1,date_studied='{today}' WHERE section_id = {section_id};")
         sqliteConnection.commit()
     except sqlite3.Error as error:
@@ -237,7 +240,7 @@ def get_new_problem_set(books, number_of_problems):
 
         # while still havent grabbed enough problems:
         #     grab random section from random book
-        #     grab look problems sorted by number and try to add sequentially
+        #     grab from problems sorted by number and try to add sequentially
         while len(problems) < number_of_problems:
             eligible_sections = cursor.execute(f"SELECT section.section_id FROM problem \
                                                 INNER JOIN section on problem.section_id=section.section_id \
@@ -263,4 +266,22 @@ def get_new_problem_set(books, number_of_problems):
         if (sqliteConnection):
             sqliteConnection.close()
     return problems
+
+# given a list of p_ids, mark the corresponding problems as completed in the problems table
+def complete(p_ids):
+    try:
+        # make database connection
+        sqliteConnection = sqlite3.connect('db.sqlite3')
+        cursor = sqliteConnection.cursor()
+        today = mydate()
+        for p_id in p_ids:
+            cursor.execute(f"UPDATE problem \
+                            SET completed = 1, completion_date = {today}\
+                            WHERE problem_id = {p_id};")
+        sqliteConnection.commit()
+    except sqlite3.Error as error:
+        print("Failed completing problems", error)
+    finally:
+        if (sqliteConnection):
+            sqliteConnection.close()
 
