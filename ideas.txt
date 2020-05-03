@@ -1,6 +1,8 @@
 Ideas for this project:
 
 
+When choosing problems, the first ~ quarter or so of the section should be given in sequence, but the rest should be randomized
+Marker placed on problem stopped at
 - investigate and implement best practices as applicable for python code modules
 - web page with graphics on progress through different books
 - deploy with terraform

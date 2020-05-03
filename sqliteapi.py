@@ -276,7 +276,7 @@ def complete(p_ids):
         today = mydate()
         for p_id in p_ids:
             cursor.execute(f"UPDATE problem \
-                            SET completed = 1, completion_date = {today}\
+                            SET completed = 1, completion_date = \"{today}\"\
                             WHERE problem_id = {p_id};")
         sqliteConnection.commit()
     except sqlite3.Error as error:
