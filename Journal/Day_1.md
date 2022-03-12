@@ -32,12 +32,26 @@ Added some boilerplate startup code to index.js, and now it runs.
 
 The frontend/SPA that utilizes the Express app
 
+Very simple startup
 
-Resources I used for the day:
+> npx create-react-app client
 
-- What exactly is Node? See <https://www.freecodecamp.org/news/what-exactly-is-node-js-ae36e97449f5/>
-- What is the JS event loop for? <https://www.freecodecamp.org/news/what-exactly-is-node-js-ae36e97449f5/>
+Under the hood it this tool does a lot. Some things to know: Babel is a JSX transpiler, and Webpack is a bundler.
 
 ### .gitignore
 
 The basic node template does the trick for node. We DO NOT version the node modules directory or other runtime stuff.
+
+
+#### Resources I used for the day
+
+- What exactly is Node?
+  - <https://www.freecodecamp.org/news/what-exactly-is-node-js-ae36e97449f5/>
+- What is the JS event loop for?
+  - <https://www.freecodecamp.org/news/what-exactly-is-node-js-ae36e97449f5/>
+- Starter Express server
+  - <https://stackabuse.com/building-a-rest-api-with-node-and-express/>
+- Starter React project
+  - <https://reactjs.org/docs/introducing-jsx.html>
+  - <https://medium.com/@agzuniverse/webpack-and-babel-what-are-they-and-how-to-use-them-with-react-5807afc82ca8>
+

@@ -1,4 +1,4 @@
-// oilerplate Express server startup
+// boilerplate Express server startup
 
 
 const express = require('express');
