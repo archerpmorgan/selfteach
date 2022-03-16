@@ -1,6 +1,7 @@
 #!/bin/bash
 (cd server && npm install)
-npm start ./server/.
+(cd server && npm start &)
+
 
 (cd client && npm install)
-npm start ./client/.
+(cd client && npm start &)
