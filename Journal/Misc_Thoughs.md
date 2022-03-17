@@ -1,6 +1,7 @@
 # Misc Thoughts
 
 This is a place to put miscellaneous thoughts about the project, things to add or change, more features, things to do differently, etc. 
+<<<<<<< HEAD
 
 
 Since I'm a dummy I left changes on my other machine without pushing. So I will make progress on day2 here today.
@@ -36,3 +37,5 @@ Set up CosmosBM emulator to run on docker on local machine
 Helpful links
 
 - <https://reactrouter.com/docs/en/v6/getting-started/tutorial>
+=======
+>>>>>>> main
