@@ -8,6 +8,7 @@ Since I'm a dummy I left changes on my other machine without pushing. So I will 
 [x] Define git branching strategy, environment topology
 [x] Basic routing and navigation header for react app, sends everything to the about page
 [x] Data modeling and cosmosdb connection
+    - Mongoose and CosmosDB MongoDB api
 [x] Be able to see my books on the landing page
 
 
@@ -24,6 +25,13 @@ One feature per PR, from a feature branch. Gated PR build, with unit tests and l
 
 # Set Up React Routing 
 
+# Data model and CosmosDB Connection
+
+mongoose for modeling
+
+https://mongoosejs.com/docs/index.html
+
+Set up CosmosBM emulator to run on docker on local machine 
 
 Helpful links
 
