@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
-const Problem = requre("./Problem");
+// import pkg from 'mongoose';
+// const { Schema, model } = pkg;
+// import problemSchema from "./Problem.js";
 
-const sectionSchema = new mongoose.Schema({
-    name: String,
-    haveStudied: Boolean,
-    studiedDate: String,
-    description: String,
-    problems: [Problem],
-});
-module.exports = mongoose.model("Section", sectionSchema);
+// export const sectionSchema = new Schema({
+//     name: String,
+//     haveStudied: Boolean,
+//     studiedDate: String,
+//     description: String,
+//     problems: [problemSchema],
+// });

@@ -1,9 +1,8 @@
-const mongoose = require("mongoose");
+import pkg from 'mongoose';
+const { Schema, model } = pkg;
 
-const problemSchema = new mongoose.Schema({
+export const problemSchema = new Schema({
     name: String,
     completed: Boolean,
     completionDate: String
 })
-
-module.exports = mongoose.model("Problem", problemSchema);

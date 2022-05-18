@@ -1,21 +1,59 @@
 
-const mongoose = require("mongoose");
-const MongoClient = require('mongodb').MongoClient
-const Book = require('./Models/Book').default
-const url = 'mongodb://127.0.0.1:27017'
-const dbName = 'books'
-let db
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema;
+const MongoClient = require("mongodb").MongoClient;
 
-MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
-  if (err) return console.log(err)
-  db = client.db(dbName)
-  console.log(`Connected MongoDB: ${url}`)
-  console.log(`Database: ${dbName}`)
+
+
+
+
+
+const url = 'mongodb://127.0.0.1:27017/test'
+
+mongoose.connect(url, { useNewUrlParser: true })
+
+const db = mongoose.connection
+db.once('open', _ => {
+  console.log('Database connected:', url)
 })
 
-const book = new Book({
-    name: "dub book"
+db.on('error', err => {
+  console.error('connection error:', err)
+})
+
+
+const problemSchema = new Schema({
+    name: String,
+    completed: Boolean,
+    completionDate: String
+})
+
+const sectionSchema = new Schema({
+    name: String,
+    haveStudied: Boolean,
+    studiedDate: String,
+    description: String,
+    problems: [problemSchema],
 });
+
+const bookSchema = new Schema({
+    name: String,
+    subject: String,
+    author: String,
+    edition: String,
+    sections: [sectionSchema]
+});
+
+const BookModel = mongoose.model("Book", bookSchema);
+
+const newBook = new BookModel({
+    name:"dubious name"
+})
+
+newBook.save(function (error, document) {
+    if (error) console.error(error)
+    console.log(document)
+})
 
 // boilerplate Express server startup
 const express = require('express');

@@ -1,5 +1,6 @@
-import { Schema, model } from "mongoose";
-import Section from "./Section";
+import pkg from 'mongoose';
+const { Schema, model } = pkg;
+import sectionSchema from "./Section.js";
 
 /*
 {
@@ -23,12 +24,10 @@ Data schema for v1
                     "completionDate": ""
 */
 
-const bookSchema = new Schema({
+export const bookSchema = new Schema({
     name: String,
     subject: String,
     author: String,
     edition: String,
-    sections: [Section]
+    sections: [sectionSchema]
 });
-
-export default model("Book", bookSchema);
