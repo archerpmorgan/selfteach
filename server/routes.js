@@ -7,6 +7,4 @@ const router = express.Router();
 router.post('/books/new', createNewBook);
 
 
-module.exports = {
-    router: router
-}
+module.exports = router;

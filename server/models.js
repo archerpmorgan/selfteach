@@ -23,6 +23,12 @@ const bookSchema = new Schema({
     sections: [sectionSchema]
 });
 
+const chapterSchema = new Schema({
+    name: String,
+    number: String,
+    problemCount: Number
+})
+
 /**
  * ingestion template
 name:Introduction To Mechanics
@@ -56,12 +62,6 @@ const newBookRequestSchema = new Schema({
     chapters: [chapterSchema]
 })
 
-const chapterSchema = new Schema({
-    name: String,
-    number: String,
-    problemCount: Number
-})
-
 const BookModel = mongoose.model("Book", bookSchema);
 const SectionModel = mongoose.model("Section", sectionSchema);
 const ProblemModel = mongoose.model("Problem", problemSchema);
@@ -71,5 +71,7 @@ const ChapterModel = mongoose.model("Chapter", chapterSchema);
 module.exports = {
     BookModel: BookModel,
     SectionModel: SectionModel,
-    ProblemModel: ProblemModel
+    ProblemModel: ProblemModel,
+    NewBookRequestModel: NewBookRequestModel,
+    ChapterModel: ChapterModel
 }

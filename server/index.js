@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const { dbKey } = require("../localSecrets.js");
 const { BookModel } = require("./models.js");
-const { routes } = require('./routes.js');
+const { router } = require('./routes.js');
+const { cors } = require('cors');
 
 // connect using mongodb client
 // var mongoClient = require("mongodb").MongoClient;
@@ -26,16 +27,9 @@ mongoose.connect(dbKey.uri).then(
 
 function startup() {
 
-    app.use(bodyParser.json({ limit: '30mb', extended: true }))
-    app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
-    app.use(cors());
-
-    app.use('/', routes);
-
-    // boilerplate Express server startup
     const express = require('express');
-
     const app = express();
+    app.use('/', router);
 
     const port = 3001;
 
