@@ -1,69 +1,56 @@
-
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema;
-const MongoClient = require("mongodb").MongoClient;
+const { dbKey } = require("../localSecrets.js");
+const { BookModel } = require("./models.js");
+const { routes } = require('./routes.js');
+
+// connect using mongodb client
+// var mongoClient = require("mongodb").MongoClient;
+// mongoClient.connect(dbKey.uri, function (err, client) {
+//     if (err) {
+//         console.log(err)
+//     } else {
+//         db = client.db('test');
+//         startup();
+//     }
+// });
+
+//connect using mongoose
+mongoose.connect(dbKey.uri).then(
+    () => { 
+        console.log("Database connection funciona");
+        startup(); 
+    },
+    err => { console.log(err) }
+  );
 
 
+function startup() {
 
+    app.use(bodyParser.json({ limit: '30mb', extended: true }))
+    app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
+    app.use(cors());
 
+    app.use('/', routes);
 
+    // boilerplate Express server startup
+    const express = require('express');
 
-const url = 'mongodb://127.0.0.1:27017/test'
+    const app = express();
 
-mongoose.connect(url, { useNewUrlParser: true })
+    const port = 3001;
 
-const db = mongoose.connection
-db.once('open', _ => {
-  console.log('Database connected:', url)
-})
+    app.get('/', (req, res) => {
+        res.send('Hello World, from express');
+    });
 
-db.on('error', err => {
-  console.error('connection error:', err)
-})
+    app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
 
+    // const newBook = new BookModel({
+    //     title: "dubious name"
+    // })    
 
-const problemSchema = new Schema({
-    name: String,
-    completed: Boolean,
-    completionDate: String
-})
-
-const sectionSchema = new Schema({
-    name: String,
-    haveStudied: Boolean,
-    studiedDate: String,
-    description: String,
-    problems: [problemSchema],
-});
-
-const bookSchema = new Schema({
-    name: String,
-    subject: String,
-    author: String,
-    edition: String,
-    sections: [sectionSchema]
-});
-
-const BookModel = mongoose.model("Book", bookSchema);
-
-const newBook = new BookModel({
-    name:"dubious name"
-})
-
-newBook.save(function (error, document) {
-    if (error) console.error(error)
-    console.log(document)
-})
-
-// boilerplate Express server startup
-const express = require('express');
-
-const app = express();
-
-const port = 3001;
-
-app.get('/', (req, res) => {
-    res.send('Hello World, from express');
-});
-
-app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
+    // newBook.save(function (error, document) {
+    //     if (error) console.error(error)
+    //     console.log(document)
+    // })
+}

@@ -6,7 +6,7 @@ export const MenuItems = [
         icon: 'fas fa-question'
     },
     {
-        title: 'My Books',
+        title: 'MyLibrary',
         url: '#',
         cName: 'nav-links',
         icon: 'fas fa-star-half-alt'
