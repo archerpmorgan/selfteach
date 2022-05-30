@@ -6,9 +6,6 @@ Agenda
 - [x] Create README and a 'getting started' file with project description and feature itemization
 - [x] Create shell project with all the starter files, and be able to run locally and see something
 - [x] My .gitignore is up and running and is appropriate for my tech stack
-- [] I have the Azure resources I need to host the started app
-- [] The app is hosted
-- [] I have some starter CI/CD pipelines
 
 ## creating shell project
 
