@@ -11,7 +11,7 @@ function About() {
             <Container style={{ paddingTop: "6rem" }}>
                 <Paper>
                 <h1>Selfteach About</h1>
-                <p>Selfteach is a web app for helping me learn and practice with technical textbooks. </p>
+                <p>Selfteach is a web app for helping me learn and practice with technical textbooks.</p>
                 </Paper>
             </Container>
         </div>
