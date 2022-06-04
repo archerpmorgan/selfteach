@@ -29,7 +29,7 @@ function Navbar() {
                     return (
                         <Link key={index} to={`/${clean(item.title)}`} style={navStyleSignedIn}>
                             <li>
-                                {item.title}
+                                {item.displayTitle}
                                 <i className={item.icon} ></i>
                             </li>
                         </Link>
