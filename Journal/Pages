@@ -1,0 +1,49 @@
+# Pages
+
+Here are the pages that the app will have based on the feature requirements, and what the pages will do
+
+## Landing Page
+
+Looks nice, introduces the product, has some custom logo art.
+
+## My Books
+
+A collection of each book with super high level summary data about the book. Each book can be clicked into to take you to a page for that single book.
+
+I can add books from the main library to my list of books I'm working through.
+
+I can remove a book. (hard delete only)
+
+## Book
+
+A page with all the data about a single book, including section and problem data in an editable table. I am able to mark sections as studied and problems as completed. Any high level summary question I might want to ask about each book is answerable.
+
+I can navigate back.
+
+## Public Library
+
+I can select a book from the options and add it to my personal list.
+
+I can see basic information about each book.
+
+## New Public Library Book
+
+I can submit a new book to be added to the public library
+
+## My Problem Sets
+
+I can see a list of my problem sets in progress and summary metadata/visualization. I can click on any one of them and see the problem set page.
+
+## Problem Set
+
+I can see all the individual problems in a set in a table.
+
+I can edit the table to mark individual problems as completed, or the whole table as completed.
+
+I can remove individual problems from the table.
+
+I can "submit" the problem set. This updates the data in the corresponding books to show the problems as completed, and moves the problem set into a completed list somewhere, or deletes it.
+
+## New Problem Set
+
+I can fill out a form to generate a new problem set according to my specific requirements, including which books the problems will come from, how many, etc. The new problem set appears in my problem sets.

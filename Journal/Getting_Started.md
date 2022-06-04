@@ -2,7 +2,7 @@
 
 Selfteach is a web app for helping me learn and practice with technical textbooks. 
 
-This tool has been created by me for personal use numerous times in numerous incarnations. I am taking some time to do it write, and document my process along the way. I am inexperienced in the Javascript/Node world, and so I hope this will be a nice learning exercise. 
+This tool has been created by me for personal use numerous times in numerous incarnations. I am taking some time to do it right, and document my process along the way. I am inexperienced in the Javascript/Node world, and so I hope this will be a nice learning exercise. 
 
 ## Features
 
