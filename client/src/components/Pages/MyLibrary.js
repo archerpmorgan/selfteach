@@ -9,6 +9,91 @@ import axios from "axios";
 
 function MyLibrary() {
 
+    const mockBookList = {
+        books: [
+            {
+                title: "Introduction to Numerology",
+                subject: "Numerology",
+                author: "Dustin Klein",
+                edition: "4",
+                sections: [
+                    {
+                        name: "1", 
+                        haveStudied: "",
+                        studiedDate: "",
+                        description: "Theory of Numers",
+                        problemCount: 4,
+                        problems: [
+                            {
+                                name: "",
+                                completed: false,
+                                completionDate: ""
+                            }
+                        ],
+                    },
+                    {
+                        name: "2",
+                        haveStudied: "",
+                        studiedDate: "",
+                        description: "Where, What, and How Many",
+                        problemCount: 4,
+                        problems: [
+                            {
+                                name: "",
+                                completed: false,
+                                completionDate: ""
+                            }
+                        ],
+                    }
+                ]
+            },
+            {
+                title: "Sociology of Overalls",
+                subject: "Soft Sciences",
+                author: "Tyler Shipley",
+                edition: "1",
+                sections: [
+                    {
+                        name: "1",
+                        haveStudied: "",
+                        studiedDate: "",
+                        description: "Plant Girls and their Overalls",
+                        problemCount: 1,
+                        problems: [
+                            {
+                                name: "",
+                                completed: false,
+                                completionDate: ""
+                            }
+                        ],
+                    }
+                ]
+            },
+            {
+                title: "How to Win",
+                subject: "Winning",
+                author: "Murimi Nyamu",
+                edition: "69",
+                sections: [
+                    {
+                        name: "",
+                        haveStudied: "",
+                        studiedDate: "",
+                        description: "",
+                        problemCount: 4,
+                        problems: [
+                            {
+                                name: "",
+                                completed: false,
+                                completionDate: ""
+                            }
+                        ],
+                    }
+                ]
+            },
+        ]
+    };
+
     return (
         <div>
             <h1>
