@@ -6,8 +6,128 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { bookSummaryStatistics } from "../../data/modelFunctions";
 
 function MyLibrary() {
+
+    const mockBookList = {
+        books: [
+            {
+                title: "Introduction to Numerology",
+                subject: "Numerology",
+                author: "Dustin Klein",
+                edition: "4",
+                sections: [
+                    {
+                        name: "1",
+                        haveStudied: "false",
+                        studiedDate: "",
+                        description: "Theory of Numers",
+                        problemCount: 4,
+                        problems: [
+                            {
+                                name: "1",
+                                completed: false,
+                                completionDate: ""
+                            },
+                            {
+                                name: "2",
+                                completed: false,
+                                completionDate: ""
+                            },
+                            {
+                                name: "3",
+                                completed: false,
+                                completionDate: ""
+                            },
+                            {
+                                name: "4",
+                                completed: false,
+                                completionDate: ""
+                            }
+                        ],
+                    },
+                    {
+                        name: "2",
+                        haveStudied: "false",
+                        studiedDate: "",
+                        description: "Where, What, and How Many",
+                        problemCount: 1,
+                        problems: [
+                            {
+                                name: "1",
+                                completed: false,
+                                completionDate: ""
+                            }
+                        ],
+                    }
+                ]
+            },
+            {
+                title: "Sociology of Feelings about Facts",
+                subject: "Soft Sciences",
+                author: "Tyler Shipley",
+                edition: "1",
+                sections: [
+                    {
+                        name: "1",
+                        haveStudied: "true",
+                        studiedDate: "",
+                        description: "Plant Girls and Their Overalls",
+                        problemCount: 1,
+                        problems: [
+                            {
+                                name: "1",
+                                completed: false,
+                                completionDate: ""
+                            }
+                        ],
+                    }
+                ]
+            },
+            {
+                title: "How to Win",
+                subject: "Winning",
+                author: "Murimi Nyamu",
+                edition: "69",
+                sections: [
+                    {
+                        name: "1",
+                        haveStudied: "true",
+                        studiedDate: "",
+                        description: "The Best Offense is a Good Offense",
+                        problemCount: 4,
+                        problems: [
+                            {
+                                name: "1",
+                                completed: false,
+                                completionDate: ""
+                            }
+                        ],
+                    },
+                    {
+                        name: "2",
+                        haveStudied: "true",
+                        studiedDate: "",
+                        description: "Thigh Diameter",
+                        problemCount: 4,
+                        problems: [
+                            {
+                                name: "1",
+                                completed: false,
+                                completionDate: ""
+                            }
+                        ],
+                    }
+                ]
+            },
+        ]
+    };
 
     return (
         <div>
@@ -17,9 +137,56 @@ function MyLibrary() {
                 <Paper>
                     <h1>My Library</h1>
                     <p>Here I will be able to view all of my books, I will be able to select books from the public library to add to my collection, and I will be able add a new book to the public library</p>
+                    <BookListDisplay data={mockBookList}></BookListDisplay>
                     <NewBook />
                 </Paper>
             </Container>
+        </div>
+    );
+}
+
+function BookListDisplay(booklist) {
+
+    const [expanded, setExpanded] = React.useState(false);
+
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
+
+    const bookDisplayData = booklist.data.books.map( book => {
+        return {
+            title: book.title,
+            subject: book.subject,
+            summaryData: bookSummaryStatistics(book)
+        }
+    });
+
+    const accordion = bookDisplayData.map( book => 
+        <Accordion key={book.title}>
+            <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+            >
+                <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                    {book.title}
+                </Typography>
+                <Typography sx={{ color: 'text.secondary' }}>{book.subject}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+                <Typography>
+                    totalProblems: {book.summaryData.totalProblems + "   " }   
+                    completedProblems: {book.summaryData.completedProblems + "   " }
+                    totalSections: {book.summaryData.totalSections + "   " }
+                    studiedSections: {book.summaryData.studiedSections}
+                </Typography>
+            </AccordionDetails>
+        </Accordion>
+    );
+
+    return (
+        <div>
+            {accordion}
         </div>
     );
 }
@@ -150,7 +317,7 @@ function NewBook() {
                         />
                         <TextareaAutosize
                             className={classes.textinput}
-                            rowsMin={5}
+                            minRows={5}
                             aria-label="maximum height"
                             onChange={handletextareachange}
                         />
