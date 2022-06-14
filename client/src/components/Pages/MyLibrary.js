@@ -11,6 +11,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { bookSummaryStatistics } from "../../data/modelFunctions";
 
 function MyLibrary() {
 
@@ -152,29 +153,40 @@ function BookListDisplay(booklist) {
         setExpanded(isExpanded ? panel : false);
     };
 
+    const bookDisplayData = booklist.data.books.map( book => {
+        return {
+            title: book.title,
+            subject: book.subject,
+            summaryData: bookSummaryStatistics(book)
+        }
+    });
+
+    const accordion = bookDisplayData.map( book => 
+        <Accordion key={book.title}>
+            <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+            >
+                <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                    {book.title}
+                </Typography>
+                <Typography sx={{ color: 'text.secondary' }}>{book.subject}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+                <Typography>
+                    totalProblems: {book.summaryData.totalProblems + "   " }   
+                    completedProblems: {book.summaryData.completedProblems + "   " }
+                    totalSections: {book.summaryData.totalSections + "   " }
+                    studiedSections: {book.summaryData.studiedSections}
+                </Typography>
+            </AccordionDetails>
+        </Accordion>
+    );
+
     return (
         <div>
-            {
-                booklist.books.map( book => 
-                    <Accordion >
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1bh-content"
-                            id="panel1bh-header"
-                        >
-                            <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                                book.title
-                            </Typography>
-                            <Typography sx={{ color: 'text.secondary' }}>I am an accordion</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <Typography>
-                                book.subject
-                            </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                )
-            }
+            {accordion}
         </div>
     );
 }
@@ -305,7 +317,7 @@ function NewBook() {
                         />
                         <TextareaAutosize
                             className={classes.textinput}
-                            rowsMin={5}
+                            minRows={5}
                             aria-label="maximum height"
                             onChange={handletextareachange}
                         />
