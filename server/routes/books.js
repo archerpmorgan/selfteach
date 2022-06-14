@@ -29,4 +29,17 @@ router.post('/new', async (req, res) => {
     res.status(201).json(newBookDocument);
 });
 
+router.post('/cover', async (req, res) => {
+    //we expect it to come in as structured JSON
+    var body;
+    try {
+        body = req.body;
+    } catch (error) {
+    console.log(error.message);
+    res.status(409).json({ message: error.message });
+    }
+    res.status(201).json(newBookDocument);
+});
+
+
 module.exports = router;
