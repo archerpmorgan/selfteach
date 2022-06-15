@@ -37,11 +37,11 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const NewBookToolbar = (props) => {
     const classes = useToolbarStyles();
-    const { hasText, handleUpload, image } = props;
+    const { hasText, handleUpload, uploadedImage } = props;
 
     return (
         <Toolbar className={classes.root}>
-            {(hasText && image) ? (
+            {(hasText && uploadedImage) ? (
                 <Tooltip title="Upload">
                     <IconButton
                         className="far fa-save"
@@ -98,12 +98,13 @@ const useStyles = makeStyles((theme) => ({
 function NewBook() {
     const classes = useStyles();
     const [inputText, setInputText] = useState("");
-    const [image, setImage] = useState(null);
+    const [uploadedImage, setUploadedImage] = useState(null);
+    const [] = useState(null);
 
     const fileSelectedHandler = event => {
         console.log(event.target.files[0]);
         if (event.target.files && event.target.files[0]) {
-            setImage(URL.createObjectURL(event.target.files[0]));
+            setUploadedImage(URL.createObjectURL(event.target.files[0]));
         }
     }
 
@@ -131,24 +132,10 @@ function NewBook() {
         console.log(result)
 
         // try upload image
-        result = axios.post("http://localhost:3001/books/coverImage", image,
-            {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            }).catch(function (error) {
-                if (error.response) {
-                    // Request made and server responded
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                } else if (error.request) {
-                    // The request was made but no response was received
-                    console.log(error.request);
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    console.log('Error', error.message);
-                };
+        const fd = new FormData();
+        fd.append("image", this.state.uploadedImage, inputObject.title)
+        result = axios.post("http://localhost:3001/books/coverImage", fd).then( res => {
+                console.log(res);
             });
     };
 
@@ -166,7 +153,7 @@ function NewBook() {
                         <NewBookToolbar
                             hasText={inputText.length > 0}
                             handleUpload={handleUpload}
-                            image={image}
+                            image={uploadedImage}
                         />
                         <TextareaAutosize
                             className={classes.textinput}
@@ -175,8 +162,8 @@ function NewBook() {
                             onChange={handletextareachange}
                         />
                         <input type="file" onChange={fileSelectedHandler} />
-                        {image ?
-                            <img src={image} alt="preview image" /> :
+                        {uploadedImage ?
+                            <img src={uploadedImage} alt="preview image" /> :
                             <></>
                         }
                     </Paper>

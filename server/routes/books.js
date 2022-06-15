@@ -30,7 +30,6 @@ router.post('/new', async (req, res) => {
 });
 
 router.post('/cover', async (req, res) => {
-    //we expect it to come in as structured JSON
     var body;
     try {
         body = req.body;
